@@ -3,7 +3,9 @@ OS Required: Linux,Unix
 
 Open sourced Tinder Bot that will swipe Left/Right depending on the amount of people in the photo.
 
-Future plans: 1. Have bot navigate to messages and start a conversation. 
+Future plans: 
+              
+              1. Have bot navigate to messages and start a conversation. 
               
               2. Have bot analyze messages to see if match knows it is a bot.
               
