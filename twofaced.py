@@ -24,7 +24,7 @@ def startApp(device, app):
 	sendSystemCommand('adb -s {} shell monkey -p {} -c android.intent.category.LAUNCHER 1'.format(device, app))
 
 def screenshot(device):
-	sendSystemCommand("adb -s {} shell screencap -p | sed 's/\r$//'".format(device))
+	sendSystemCommand("adb -s {} shell screencap -p > tmp".format(device))
 
 def dumpUiAutomator(device):
 	os.system("adb -s {} pull $(adb -s {} shell uiautomator dump | grep -oP '[^ ]+.xml') tmp".format(device, device))
@@ -32,9 +32,10 @@ def dumpUiAutomator(device):
 
 def findBounds(device):
 	Ui = dumpUiAutomator(device)
-	Ui = Ui.partition('resource-id="" class="android.widget.FrameLayout" package="com.tinder" content-desc="" checkable="false" checked="false" clickable="true" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="')[2]
+	Ui = Ui.partition('resource-id="com.tinder:id/recs_card_tappy_carousel" class="android.widget.FrameLayout" package="com.tinder" content-desc="" checkable="false" checked="false" clickable="false" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="')[2]	
 	Ui = Ui.partition('"')[0]
 	Ui = re.findall('(\d+)', str(Ui))
+	
 	return Ui
 
 def crop(coords, filename):
@@ -68,5 +69,4 @@ if __name__ == "__main__":
 			else:
 				bounds = randomBounds(coords, True)
 			os.system('adb -s {} shell input swipe {}'.format(device, ' '.join(bounds)))
-			#time.sleep(random.randint(1,7))
-
+#time.sleep(random.randint(1,7))
